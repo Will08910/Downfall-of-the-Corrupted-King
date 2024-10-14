@@ -7,17 +7,27 @@ using UnityEngine;
 public class MainPlayerScript : MonoBehaviour
 {
     LayerMask groundLayerMask;
+    LayerMask enemiesLayerMask;
     public Animator anim;
-    private float Move;
+    public float Move = 10;
     public int speed = 10;
     public bool isFacingRight;
     Rigidbody2D rb;
     SpriteRenderer sr;
     private bool isGrounded;
+
+    public float KBForce;
+    public float KBCounter;
+    public float KBTotalTime;
+
+    public bool KBActive;
+
+    public bool KnockFromRight;
     // Start is called before the first frame update
     void Start()
     {
         groundLayerMask = LayerMask.GetMask("Ground");
+        enemiesLayerMask = LayerMask.GetMask("Enemies");
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
@@ -34,20 +44,42 @@ public class MainPlayerScript : MonoBehaviour
     {
         Move = Input.GetAxisRaw("Horizontal");
 
-        rb.velocity = new Vector2(Move * speed, rb.velocity.y);
+        if(KBCounter <= 0)
+        {
+            rb.velocity = new Vector2(Move * speed, rb.velocity.y);
+        }
+
+        else
+        {
+            if(KnockFromRight == true)
+            {
+                rb.velocity = new Vector2(-KBForce, rb.velocity.y);
+                speed = 0;
+                StartCoroutine(KBDelay());
+            }
+
+            if(KnockFromRight == false)
+            {
+                rb.velocity = new Vector2(KBForce, rb.velocity.y);
+                speed = 0;
+                StartCoroutine(KBDelay());
+            }
+
+            KBCounter -= Time.deltaTime;
+        }
 
         if (Input.GetKeyDown("space") && isGrounded == true)
         {
             rb.AddForce(new Vector3(0, 11, 0), ForceMode2D.Impulse);
         }
 
-        if (Input.GetKey("left") == true)
+        if (Input.GetKey("left") == true && speed == 7)
         {
             rb.velocity = new Vector2(speed * -1f, rb.velocity.y);
             sr.flipX = true;
         }
 
-        if (Input.GetKey("right") == true)
+        if (Input.GetKey("right") == true && speed == 7)
         {
             rb.velocity = new Vector2(speed * 1f, rb.velocity.y);
             sr.flipX = false;
@@ -69,7 +101,7 @@ public class MainPlayerScript : MonoBehaviour
 
         RaycastHit2D hit;
 
-        hit = Physics2D.Raycast(transform.position, Vector2.down, rayLength, groundLayerMask);
+        hit = Physics2D.Raycast(transform.position, Vector2.down, rayLength, groundLayerMask | enemiesLayerMask);
 
         Color hitColor = Color.white;
         isGrounded = false;
@@ -81,5 +113,11 @@ public class MainPlayerScript : MonoBehaviour
         }
         Debug.DrawRay(transform.position, Vector2.down * rayLength, hitColor);
 
+    }
+
+    IEnumerator KBDelay()
+    {
+        yield return new WaitForSeconds(.5f);
+        speed = 7;
     }
 }

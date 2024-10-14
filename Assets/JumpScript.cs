@@ -7,6 +7,7 @@ using System;
 public class JumpScript : MonoBehaviour
 {
     LayerMask groundLayerMask;
+    LayerMask playerLayerMask;
 
     public GameObject player;
 
@@ -27,6 +28,7 @@ public class JumpScript : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         groundLayerMask = LayerMask.GetMask("Ground");
+        playerLayerMask = LayerMask.GetMask("Player");
         isGrounded = true;
     }
 
@@ -65,7 +67,7 @@ public class JumpScript : MonoBehaviour
 
         RaycastHit2D hit;
 
-        hit = Physics2D.Raycast(transform.position, Vector2.down, rayLength, groundLayerMask);
+        hit = Physics2D.Raycast(transform.position, Vector2.down, rayLength, groundLayerMask | playerLayerMask);
 
         Color hitColor = Color.white;
         isGrounded = false;
