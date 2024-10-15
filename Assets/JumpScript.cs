@@ -9,6 +9,8 @@ public class JumpScript : MonoBehaviour
     LayerMask groundLayerMask;
     LayerMask playerLayerMask;
 
+    public Animator anim;
+
     public GameObject player;
 
     public bool flip;
@@ -30,6 +32,7 @@ public class JumpScript : MonoBehaviour
         groundLayerMask = LayerMask.GetMask("Ground");
         playerLayerMask = LayerMask.GetMask("Player");
         isGrounded = true;
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -69,11 +72,13 @@ public class JumpScript : MonoBehaviour
 
         hit = Physics2D.Raycast(transform.position, Vector2.down, rayLength, groundLayerMask | playerLayerMask);
 
+        anim.SetBool("isGrounded", false);
         Color hitColor = Color.white;
         isGrounded = false;
 
         if (hit.collider != null)
         {
+            anim.SetBool("isGrounded", true);
             hitColor = Color.green;
             rb.AddForce(new Vector3(0, 30, 0), ForceMode2D.Impulse);
         }

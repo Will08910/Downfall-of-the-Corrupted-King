@@ -16,7 +16,7 @@ public class SecretDoorOpener : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Torch.SetActive(false);
     }
 
     // Update is called once per frame

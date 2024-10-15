@@ -101,7 +101,7 @@ public class MainPlayerScript : MonoBehaviour
 
         RaycastHit2D hit;
 
-        hit = Physics2D.Raycast(transform.position, Vector2.down, rayLength, groundLayerMask | enemiesLayerMask);
+        hit = Physics2D.Raycast(transform.position, Vector2.down, rayLength, groundLayerMask);
 
         Color hitColor = Color.white;
         isGrounded = false;
