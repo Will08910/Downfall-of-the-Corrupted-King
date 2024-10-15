@@ -63,7 +63,7 @@ public class JumpScript : MonoBehaviour
 
     void DoRayCollisionCheck()
     {
-        float rayLength = 0.1f;
+        float rayLength = 0.03f;
 
         RaycastHit2D hit;
 

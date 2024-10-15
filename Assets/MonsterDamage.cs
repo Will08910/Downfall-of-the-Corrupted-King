@@ -4,10 +4,21 @@ using UnityEngine;
 
 public class MonsterDamage : MonoBehaviour
 {
+    LayerMask playerLayerMask;
     public int damage;
     public DamagePlayer playerHealth;
     public MainPlayerScript playerMovement;
 
+
+    void Start()
+    {
+        playerLayerMask = LayerMask.GetMask("Player");
+    }
+
+    void Update()
+    {
+
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.gameObject.tag == "Player")
@@ -25,4 +36,5 @@ public class MonsterDamage : MonoBehaviour
             playerHealth.TakeDamage(damage);
         }
     }
+
 }
