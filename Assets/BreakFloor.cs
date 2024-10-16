@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class BreakFloor : MonoBehaviour
 {
+
+    public ParticleSystem collisionParticleSystem;
+    public bool once = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,14 +22,30 @@ public class BreakFloor : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        StartCoroutine(HolOn());
-
+        if (other.gameObject.CompareTag("Player") && once)
+        {
+            StartCoroutine(HolOn());
+        }
 
     }
 
     IEnumerator HolOn()
     {
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(1.1f);
+        var em = collisionParticleSystem.emission;
+        var dur = collisionParticleSystem.duration;
+
+        em.enabled = true;
+        collisionParticleSystem.Play();
+
+        once = false;
+        Invoke(nameof(DestroyObj), dur);
+        yield return new WaitForSeconds(.1f);
+        Destroy(gameObject);
+    }
+
+    void DestroyObj()
+    {
         Destroy(gameObject);
     }
 }
