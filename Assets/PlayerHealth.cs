@@ -4,20 +4,24 @@ using UnityEngine;
 
 public class DamagePlayer : MonoBehaviour
 {
-    public int maxHealth = 10;
-    public int health;
+    public int maxHealth = 5;
+    public int currentHealth;
     public SpriteRenderer sprite;
+
+    public HealthBar healthBar;
 
     void Start()
     {
-        health = maxHealth;
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
     }
 
 public void TakeDamage(int damage)
     {
-        health -= damage;
+        currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
         StartCoroutine(FlashRed());
-        if(health <= 0)
+        if(currentHealth <= 0)
         {
             Destroy(gameObject);
         }
