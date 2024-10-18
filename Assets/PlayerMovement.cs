@@ -97,7 +97,7 @@ public class MainPlayerScript : MonoBehaviour
 
     public void DoRayCollisionCheck()
     {
-        float rayLength = 0.35f;
+        float rayLength = 0.5f;
 
         RaycastHit2D hit;
 
