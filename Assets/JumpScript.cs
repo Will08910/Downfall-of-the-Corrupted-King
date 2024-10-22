@@ -40,7 +40,7 @@ public class JumpScript : MonoBehaviour
     {
 
         if (player != null)
-            {
+        {
             anim.SetBool("playerAlive", true);
             DoRayCollisionCheck();
 
@@ -61,7 +61,7 @@ public class JumpScript : MonoBehaviour
             transform.localScale = scale;
 
             rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
-            }
+        }
         if (player == null)
         {
             anim.SetBool("playerAlive", false);
