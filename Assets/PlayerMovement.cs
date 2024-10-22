@@ -23,6 +23,8 @@ public class MainPlayerScript : MonoBehaviour
     public bool KBActive;
 
     public bool KnockFromRight;
+
+    public MonoBehaviour targetComponent;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +40,22 @@ public class MainPlayerScript : MonoBehaviour
     {
         DoRayCollisionCheck();
         MoveSprite();
+        if (targetComponent != null )
+        {
+            if (targetComponent.enabled)
+            {
+                Debug.Log(targetComponent.GetType().Name + "is enabled.");
+            }
+            else
+            {
+                Debug.Log(targetComponent.GetType().Name + "is disabled");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Target component is not assigned!");
+        }
+
     }
 
     void MoveSprite()
