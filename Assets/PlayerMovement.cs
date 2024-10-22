@@ -24,7 +24,7 @@ public class MainPlayerScript : MonoBehaviour
 
     public bool KnockFromRight;
 
-    public MonoBehaviour targetComponent;
+    public GameObject Sword;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +33,7 @@ public class MainPlayerScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        anim.SetBool("isSword", false);
     }
 
     // Update is called once per frame
@@ -40,20 +41,22 @@ public class MainPlayerScript : MonoBehaviour
     {
         DoRayCollisionCheck();
         MoveSprite();
-        if (targetComponent != null )
+        if (Sword != null )
         {
-            if (targetComponent.enabled)
+            if (Sword.activeInHierarchy)
             {
-                Debug.Log(targetComponent.GetType().Name + "is enabled.");
+                Debug.Log(Sword.name + " is active in hierarchy (activeInHierarchy).");
+                anim.SetBool("isSword", false);
             }
             else
             {
-                Debug.Log(targetComponent.GetType().Name + "is disabled");
+                Debug.Log(Sword.name + " is inactive in hierarchy (activeInHierarchy).");
+                anim.SetBool("isSword", true);
             }
         }
         else
         {
-            Debug.LogWarning("Target component is not assigned!");
+            Debug.LogWarning("GameObject is not assigned!");
         }
 
     }
@@ -84,6 +87,11 @@ public class MainPlayerScript : MonoBehaviour
             }
 
             KBCounter -= Time.deltaTime;
+        }
+
+        if (anim.GetBool("isSword") && Input.GetKeyDown(KeyCode.F) == true)
+        {
+            anim.SetTrigger("Attack");
         }
 
         if (Input.GetKeyDown("space") && isGrounded == true)
