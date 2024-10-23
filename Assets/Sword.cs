@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Sword : MonoBehaviour
 {
-    public GameObject sword;
+    public GameObject Sword1;
     public GameObject light;
     // Start is called before the first frame update
     void Start()
     {
-        sword.SetActive(true);
+        Sword1.SetActive(true);
         light.SetActive(true);
     }
 
@@ -23,7 +23,7 @@ public class Sword : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            sword.SetActive(false);
+            Sword1.SetActive(false);
             light.SetActive(false);
         }
     }

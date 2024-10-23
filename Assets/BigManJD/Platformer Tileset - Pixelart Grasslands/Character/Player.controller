@@ -95,7 +95,7 @@ AnimatorState:
   m_PrefabAsset: {fileID: 0}
   m_Name: SwordAttack
   m_Speed: 1
-  m_CycleOffset: 0
+  m_CycleOffset: 1
   m_Transitions:
   - {fileID: -2038337082648163911}
   - {fileID: 7894555080452208751}

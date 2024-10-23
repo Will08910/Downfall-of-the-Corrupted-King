@@ -7,7 +7,7 @@ using UnityEngine;
 public class MainPlayerScript : MonoBehaviour
 {
     LayerMask groundLayerMask;
-    LayerMask enemiesLayerMask;
+    public LayerMask enemyLayers;
     public Animator anim;
     public float Move = 10;
     public int speed = 10;
@@ -25,11 +25,14 @@ public class MainPlayerScript : MonoBehaviour
     public bool KnockFromRight;
 
     public GameObject Sword;
+
+    public Transform attackPoint;
+    public float attackRange = 0.5f;
     // Start is called before the first frame update
     void Start()
     {
         groundLayerMask = LayerMask.GetMask("Ground");
-        enemiesLayerMask = LayerMask.GetMask("Enemies");
+        enemyLayers = LayerMask.GetMask("Enemies");
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
@@ -45,12 +48,10 @@ public class MainPlayerScript : MonoBehaviour
         {
             if (Sword.activeInHierarchy)
             {
-                Debug.Log(Sword.name + " is active in hierarchy (activeInHierarchy).");
                 anim.SetBool("isSword", false);
             }
             else
             {
-                Debug.Log(Sword.name + " is inactive in hierarchy (activeInHierarchy).");
                 anim.SetBool("isSword", true);
             }
         }
@@ -92,6 +93,13 @@ public class MainPlayerScript : MonoBehaviour
         if (anim.GetBool("isSword") && Input.GetKeyDown(KeyCode.F) == true)
         {
             anim.SetTrigger("Attack");
+
+            Collider2D[] hitEnemies =  Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+            
+            foreach(Collider2D enemy in hitEnemies)
+            {
+                enemy.GetComponent<EnemyHealth>().TakeDamage(1);
+            }
         }
 
         if (Input.GetKeyDown("space") && isGrounded == true)
@@ -145,5 +153,13 @@ public class MainPlayerScript : MonoBehaviour
     {
         yield return new WaitForSeconds(.5f);
         speed = 7;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null)
+            return;
+
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }
