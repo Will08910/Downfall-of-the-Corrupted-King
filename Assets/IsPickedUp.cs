@@ -14,7 +14,7 @@ public class IsPickedUp : MonoBehaviour
     public void PickUp()
     {
         doorOpen = true;
-        gameObject.SetActive(true);
+        gameObject.SetActive(false);
 
     }
 

@@ -14,7 +14,7 @@ public class Escape : MonoBehaviour
 
         if (winText != null)
         {
-            winText.SetActive(false); // Ensure winText is initially inactive
+            winText.SetActive(false);
         }
         else
         {
